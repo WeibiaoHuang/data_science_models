@@ -1,0 +1,281 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri May 05 10:22:14 2017
+
+@author: WHuang07
+"""
+# class and object
+import os
+os.chdir('C:\Dentsu\Code 1 Infinity\Infinity Reboot\codes')
+class PlaywithName():
+    def createName(self, name): #self refers to the object, which we dont know the name
+        self.name = name
+        self.pool = 3 # assign the attribute value to object
+    def displayName(self):
+        print('My name is %s' %self.name)
+        
+print PlaywithName
+firstperson = PlaywithName()
+firstperson.createName('Wilson') # the line must be there to create the attribute name for self
+firstperson.displayName()
+firstperson.name
+firstperson.pool
+
+# Another Example
+class Student():
+    def __init__(self, name, age):
+        self.attend = 0
+        self.grades = []
+        print ("Hello My Name is %s" %name)
+        
+    def attendDay(self):
+        self.attend +=1
+    def addGrade(self, grade):
+        self.grades.append(grade)
+    def getAverage(self):
+        return sum(self.grades)/len(self.grades)
+
+import random
+wilson = Student('Wilson', 'fets') # class only take in functions in the module in the first line of class definition, which you want to use that in your customized class, but not take in any variable, because the variable will go to __init__ function. which here the second variable value must be provided, 'fets' otherwise will got errors, as see below. 
+try:
+    tomy =Student('Tomy')
+except Exception as e:
+    print('Error genenrated')   
+    print e
+print wilson.attend
+for _ in range(10):
+    wilson.attendDay()
+print wilson.attend
+for i in range(10):
+    wilson.addGrade(random.randrange(60, 101))
+print wilson.grades
+print wilson.getAverage()
+
+#http://stackoverflow.com/questions/9663562/what-is-difference-between-init-and-call-in-python
+#So, the __init__ method is used when the class is called to initialize the instance, while the __call__ method is called when the instance is called 
+class foo:
+    def __call__(self, a, b, c):
+        return a+b+c
+test = foo()
+print test(1,2,3)
+
+class foo2:
+    def __init__(self, a, b, c):
+        print a+b+c
+foo2(1,2,3)
+
+#=========================================================================================
+#Multi-threading
+import threading
+class adsDownloader(threading.Thread):
+    def __init__(self):
+        threading.Thread.__init__(self)
+        print self
+adsDownloader().start() # to start a new thread for new job
+
+#========================================================================================
+#subclass and superclass 
+class ParrentClass:
+    var1 = 'i am var1'
+    var2 = 'i am var2'
+    def __init__(self):
+        self.public = 1
+        
+
+class ParrentClass2:
+    var3 = 'i am var3'
+
+# inherit from multiple superclasses  
+class ChildClass(ParrentClass, ParrentClass2):
+    pass
+# modify the variable in superclass
+class ChildClass2(ParrentClass):
+    var1 = 'i am modified var1'
+
+parentObject = ParrentClass()
+print parentObject.var1 # 'i am var1'
+print parentObject.public # 1
+childObject = ChildClass()
+print childObject.var1 # 'i am var1'
+try: 
+    print childObject.public 
+except Exception as e:
+    print e
+    
+print childObject.var3 # 'i am var3'
+childObject2 = ChildClass2()
+print childObject2.var1 # 'i am modified var1'
+
+#constructor
+class NewPrintConstructor():
+    def __init__(self, pool):
+        print "test the constructor"
+        self.pool = pool         
+        
+NewPrintConstructor(3)
+#test the constructor
+#<__main__.NewPrintConstructor instance at 0x000000000B013748>
+NewPrintConstructor(5).pool # 5 
+
+#Make function reusable as module (will save all the functions and variables, and can import it anytimes)
+#remember the module can only been imported one time, which means the changes on the module wont reflected, unless the session been restarted, in spyder case, need to close the spyder application!!!! or you can use the reload function 
+
+#need to put py file under C:\Users\WHUANG07\AppData\Local\Continuum\Anaconda2\Lib\site-packages
+import testModule
+testModule.testMod()
+testFun = testModule.testMod # assign a variable to the function in the module
+testFun()
+reload(testModule)
+testFun = testModule.testMod # one relaod, need assign the function to variable
+testFun() 
+
+while True:
+    try:
+        number = int(input('what is your favourite number?\n'))
+        print(18/number)
+        break
+    except NameError:
+        print("Make sure you enter the number")
+    except ZeroDivisionError:
+        print("Dont pick zero")
+    except:
+        break #but will hide the expection
+    finally:
+        print("loop complete") #no matter what, finally will be executed 
+#=================================================================================================================
+class YourClass:
+    public = 1100
+    __thing = 1
+    _parameter =100
+    print __thing
+    print _parameter
+    print public
+        
+class MyClass(YourClass):
+    pass
+#    def __init__(self):
+##        print self.__thing
+##        print self._YourClass__thing
+##        print self._parameter
+#        self.__thing = "My thing" 
+#        print self.__thing
+
+testyourclass = YourClass()
+testyourclass._YourClass__thing
+
+testClass = MyClass()
+testClass.public
+testClass._parameter
+testClass._YourClass__thing
+#testClass.public
+#=================================================================================================================
+
+class Person:
+    def __init__(self, first, last):
+        self.firstname = first
+        self.lastname = last
+    def __str__(self):
+        return self.firstname + ' ' + self.lastname
+    def __Name(self):
+        return self.firstname + ' ' + self.lastname
+
+class testPerson:
+    def __init__(first, last):
+        return first + ' ' + last
+# must have self as first variable, otherwise use staticmethod or classmethod. 
+#https://stackoverflow.com/questions/14327794/can-python-have-class-or-instance-methods-that-do-not-have-self-as-the-first-a
+try:
+    x_test = testPerson("Marge", "Simpson")
+except Exception as e:
+    print e
+    
+#https://www.codecademy.com/en/forum_questions/53edd6977c82ca555200102f
+class testPerson2:
+    def __init__(ttest, first, last):
+        print first + ' ' + last
+        # cannot use return, as contructor can only return none, so need to use print
+x_test2 = testPerson2("Marge", "Simpson")
+
+x = Person("Marge", "Simpson")
+print x
+x.Name()
+
+class Employee(Person):
+    def __init__(self, first, last, staffnum):
+        Person.__init__(self, first, last)
+        self.staffnumber = staffnum
+#    if dont define the below function, it will inherited from superclass
+    def __str__(self):
+        return Person.__str__(self) + ", "+ self.staffnumber
+#        now self.Name() is referring to the function in the subclass itself, so need to change Name to __Name(), but since you change it, it becomes private method, which should not be overwritten
+    def __Name(self):
+#        return self.Name()+ ", "+ self.staffnumber
+#        maximum recursion depth exceeded
+        return Person._Person__Name(self)+ ", "+ self.staffnumber
+    def GetEmployee(self):
+#        return self.first #fails the test
+        return self._Person__Name() + ", "+self.staffnumber
+#        try to understand the difference between self and super()
+    def currentName(self):
+        return self.__Name()
+
+#so conclusion, unless call the superclass same function name within the function (use super or superclass name), the rest use self.{function_name}, but take care of the case, some variables or functions might refined in the current class 
+       
+y = Employee("Homer", "Simpson", "1007")
+print y
+print y.GetEmployee()
+print y._Employee__Name()
+print y.currentName()
+print y._Person__Name()
+
+
+class Person:
+    def __init__(self, first, last):
+        self.firstname = first
+        self.lastname = last
+    def __str__(self):
+        return self.firstname + ' ' + self.lastname
+    def _Name(self):
+        return self.firstname + ' ' + self.lastname
+
+class Employee(Person):
+    def __init__(self, first, last, staffnum):
+        Person.__init__(self, first, last)
+        self.staffnumber = staffnum
+#    if dont define the below function, it will inherited from superclass
+    def __str__(self):
+        return self._Name() + ", "+ self.staffnumber
+
+y = Employee("Homer", "Simpson", "1007")
+print y
+
+# overloading in python
+def f(n):
+     return n + 42
+ 
+def f(n,m):
+    return n + m + 42
+f(3,4)
+try:
+    f(3)
+except Exception as e:
+    print e
+    
+def f(n, m=None):
+    if m:
+        return n + m +42
+    else:
+        return n + 42
+f(3,4) #49
+f(3) #45
+
+def g(*x):
+    if len(x) == 1:
+        return x[0] + 42
+    else: 
+        return x[0] + x[1] + 42
+
+print g(3,4) #49
+print g(3) #45
+
+
