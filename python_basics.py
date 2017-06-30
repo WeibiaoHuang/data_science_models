@@ -278,4 +278,188 @@ def g(*x):
 print g(3,4) #49
 print g(3) #45
 
+#https://pythontips.com/2013/08/04/args-and-kwargs-in-python-explained/
+def test_var_args(f_arg, *argv):
+    print "first normal arg:", f_arg
+    for arg in argv:
+        print "another arg through *argv :", arg
+
+test_var_args('yasoob','python','eggs','test')
+
+#You should use **kwargs if you want to handle named arguments in a function
+def greet_me(**kwargs):
+    if kwargs is not None:
+        for key, value in kwargs.iteritems():
+            print "%s == %s" %(key,value)
+
+greet_me(name="yasoob") 
+greet_me(age=10)            
+
+#Now lets talk about how you can use *args and **kwargs to call a function with a list or dictionary of arguments.
+
+def test_args_kwargs(*argv):
+    for arg in argv:
+        print "variable passed in is %s" %arg
+        
+args = ("two", 3, 5, 10) #type is tuple
+#cannot use test_args_kwargs(args)
+test_args_kwargs(*args)
+
+def test_args_kwargs2(arg1, arg2, arg3):
+    print "arg1:", arg1
+    print "arg2:", arg2
+    print "arg3:", arg3
+
+args2 = ("two", 3, 5)   
+test_args_kwargs2(*args2)
+kwargs = {"arg3": 3, "arg2": "two","arg1":5}
+test_args_kwargs2(**kwargs)
+
+def test(fargs,*args,**kwargs):
+    print "first normal arg:", fargs
+    for arg in args:
+        print "non_keyworded variable passed in is %s" %arg
+    for key, value in kwargs.iteritems():
+        print "The Key %s with the value of %s" %(key,value)
+test("first variable")
+test("first variable", "2nd_var", 100, 123)
+test("first variable", "2nd_var", 100, 123, x=100)
+test("first variable", x=100)
+
+ 
+def zero():
+    print "You typed zero.\n"
+ 
+def sqr():
+    print "n is a perfect square\n"
+ 
+def even():
+    print "n is an even number\n"
+ 
+def prime():
+    print "n is a prime number\n"
+    
+options = {0 : zero,
+                1 : sqr,
+                4 : sqr,
+                9 : sqr,
+                2 : even,
+                3 : prime,
+                5 : prime,
+                7 : prime,
+}
+    
+options[1]()
+
+#https://www.youtube.com/watch?v=VBokjWj_cEA
+cities = ['shanghai', 'shenzhen', 'fuzhou']
+for index, city in enumerate(cities):
+    print '%s : %s'%(index, city)
+
+#walk through multiple list at the same time
+x_list = [1, 2, 3]
+y_list = [4, 5, 6]
+z_list = [7, 8, 9]
+for x, y, z in zip(x_list, y_list, z_list):
+    print (x, y, z)
+    
+# swap variable
+x = 10
+y = 20
+x,y,z = 1,3,4
+print 'before x = %d and y = %d' %(x,y)
+x,y = y,x
+print 'after x = %d and y = %d' %(x,y)
+
+#handle dict
+ages = {
+    'Mary': 18,
+    'Terry': 12,
+    'Dave': 29,
+    'Kate': 'whatever'    
+}
+#set the default value in case key is not in the dictionary
+age = ages.get('Dave', 'not in the dict')
+print "Dave has an age of %s"%age
+
+needle = 'd'
+haystack = ['a', 'b', 'c']
+for letter in haystack:
+    if needle == letter:
+        print('found')
+        break
+else: #if no break occurred
+    print('not found!')
+
+#f = open('some.txt')
+#for line in f:
+#    print line
+#f.close()
+
+#with open('some.txt') as f:
+#    for line in f:
+#        print line
+#with is used to create context, no need to worry about the cleaning off, like close
+#use with statement to work with text file
+
+print 'Converting'
+try:
+    print(int('1'))
+except:
+    print('Conversion Failed!')
+else: # if no-except
+    print('Conversion Succeed!')
+finally: # always happen, which is used to clean up, e.g. close the file
+    print('Done!')
+
+#https://www.youtube.com/watch?v=cKlnR-CB3tk
+#understand lambda, map, filter, reduce functions
+mx = lambda x, y: x if x>y else y
+#mx is the function defined by lambda
+print(mx(8,5))
+
+#map can apply same function to each element of sequence or list
+n = [4,3,2,1]
+print list(map(lambda x: x**2, n)) # map the first variable is the function, second is the list
+n_squared = map(lambda x: x**2, n)
+type(n_squared) #still list
+#list comprehension
+print [x**2 for x in n]
+
+#filter function
+print list(filter(lambda x: x>2, n)) # map the first variable is the condition, second is
+#list comprehension
+print [x for x in n if x>2]
+
+#reduce function
+#use result of operation as first param of next operation
+#return an item, not a list
+print reduce(lambda x,y: x*y, n) #give the result of 24
+
+#Python Tutorial: Generators 
+#https://www.youtube.com/watch?v=bD05uGo_sVI
+
+
+import pandas as pd
+x = pd.DataFrame({0: [1,2,3], 1: [4,5,6], 2: [7,8,9], 3:[10,11,12]})
+x = x.apply(lambda x: x*2)
+
+#dropout implementation for deep learning
+import numpy as np
+p = 0.5
+#x.shape give the tuple as result
+U1=(np.random.rand(*x.shape)<p)/p
+x*=U1
+
+X = x - np.mean(x, axis = 0) # 0 for vertical and 1 for horizontal
+cov = np.dot(X.T, X) / X.shape[0] 
+
+
+
+
+
+
+
+
+
 

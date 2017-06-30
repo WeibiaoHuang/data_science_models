@@ -1,2 +1,2 @@
-# Data Science Model
+# Data Science Models
 Practice on different modeling techniques
