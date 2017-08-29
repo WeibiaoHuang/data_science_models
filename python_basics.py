@@ -454,7 +454,8 @@ x*=U1
 X = x - np.mean(x, axis = 0) # 0 for vertical and 1 for horizontal
 cov = np.dot(X.T, X) / X.shape[0] 
 
-
+# local variable vs global variable
+# https://www.youtube.com/watch?v=r9LtArXOYjk
 
 
 
